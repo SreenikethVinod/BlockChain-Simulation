@@ -1,0 +1,555 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   DESIGN TOKEN SYSTEM — Engineering Console Aesthetic
+   No gradients. No neon. No glow. Solid surfaces. Crisp type. Sharp edges.
+   ========================================================================== */
+:root {
+  color-scheme: dark;
+
+  /* Backgrounds */
+  --bg:            #0e1012;   /* primary page background — deep graphite */
+  --surface:       #16191c;   /* card / panel surface */
+  --surface-raised: #1d2126;  /* elevated secondary surface */
+  --surface-inset: #0b0d0f;   /* depressed / inset surface */
+
+  /* Borders */
+  --border:        #272c31;   /* standard border */
+  --border-strong: #363d44;   /* emphasized border */
+  --border-subtle: #1e2227;   /* very subtle divider */
+
+  /* Text */
+  --text:          #dde2e8;   /* primary text */
+  --text-muted:    #6e7a86;   /* secondary text */
+  --text-dim:      #404850;   /* placeholder / disabled */
+  --text-inv:      #0e1012;   /* text on accent backgrounds */
+
+  /* Accent — amber, instrument-panel quality */
+  --accent:        #d4891a;   /* primary interactive accent */
+  --accent-strong: #e89f2b;   /* hover / emphasis */
+  --accent-dim:    #7a4e0e;   /* muted / background accent */
+
+  /* Status */
+  --success:       #3a8c5e;   /* operational / valid */
+  --success-dim:   #1f4a33;
+  --warning:       #b5832b;   /* caution */
+  --warning-dim:   #5c3f0d;
+  --danger:        #b03030;   /* critical / error */
+  --danger-dim:    #4a1212;
+  --info:          #2e6a9e;   /* informational / neutral */
+  --info-dim:      #132b40;
+
+  /* Radius tokens — deliberately small/architectural */
+  --radius-sm:  2px;
+  --radius-md:  4px;
+  --radius-lg:  6px;
+  --radius-xl:  8px;
+
+  /* Typography */
+  --font-ui:    'DM Sans', system-ui, sans-serif;
+  --font-mono:  'Space Mono', ui-monospace, monospace;
+}
+
+/* ==========================================================================
+   BASE RESET
+   ========================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 14px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  /* Subtle grid overlay — very quiet, not decorative */
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,0.018) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.018) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* ==========================================================================
+   CUSTOM SCROLLBAR
+   ========================================================================== */
+::-webkit-scrollbar          { width: 5px; height: 5px; }
+::-webkit-scrollbar-track    { background: var(--bg); }
+::-webkit-scrollbar-thumb    { background: var(--border-strong); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
+
+/* ==========================================================================
+   UTILITY CLASSES
+   ========================================================================== */
+
+/* Technical monospace — for data, hashes, numbers, IDs */
+.mono {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  letter-spacing: 0.01em;
+}
+
+.mono-sm {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.01em;
+}
+
+.mono-xs {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.005em;
+}
+
+/* Section labels — uppercase, tracked, muted */
+.label {
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   PANEL / CARD COMPONENT
+   ========================================================================== */
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  transition: border-color 0.15s ease;
+}
+
+.panel:hover {
+  border-color: var(--border-strong);
+}
+
+.panel--inset {
+  background: var(--surface-inset);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+}
+
+.panel--raised {
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+/* Section dividers */
+.divider {
+  border: none;
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* ==========================================================================
+   METRIC TILES — technical instrumentation
+   ========================================================================== */
+.metric-tile {
+  background: var(--surface-inset);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  cursor: default;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.metric-tile:hover {
+  border-color: var(--border-strong);
+  background: var(--surface);
+}
+
+.metric-tile--clickable {
+  cursor: pointer;
+}
+
+.metric-tile--clickable:hover {
+  border-color: var(--accent-dim);
+}
+
+/* ==========================================================================
+   STATUS INDICATORS — no glow, no badges, solid and purposeful
+   ========================================================================== */
+.status-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.status-dot--live     { background: var(--success); }
+.status-dot--warn     { background: var(--warning); }
+.status-dot--danger   { background: var(--danger); }
+.status-dot--offline  { background: var(--text-dim); }
+
+/* Small text status badges */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 7px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+}
+
+.status-badge--live {
+  color: var(--success);
+  border-color: var(--success-dim);
+  background: rgba(58, 140, 94, 0.08);
+}
+
+.status-badge--warn {
+  color: var(--warning);
+  border-color: var(--warning-dim);
+  background: rgba(181, 131, 43, 0.08);
+}
+
+.status-badge--danger {
+  color: var(--danger);
+  border-color: var(--danger-dim);
+  background: rgba(176, 48, 48, 0.08);
+}
+
+.status-badge--offline {
+  color: var(--text-muted);
+  border-color: var(--border);
+  background: transparent;
+}
+
+.status-badge--neutral {
+  color: var(--text-muted);
+  border-color: var(--border);
+  background: var(--surface-inset);
+}
+
+.status-badge--accent {
+  color: var(--accent-strong);
+  border-color: var(--accent-dim);
+  background: rgba(212, 137, 26, 0.08);
+}
+
+/* ==========================================================================
+   FORM CONTROLS
+   ========================================================================== */
+.ctrl-input {
+  width: 100%;
+  padding: 8px 10px;
+  background: var(--surface-inset);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  transition: border-color 0.15s ease;
+  outline: none;
+  -webkit-appearance: none;
+}
+
+.ctrl-input:focus {
+  border-color: var(--accent);
+}
+
+.ctrl-input::placeholder {
+  color: var(--text-dim);
+}
+
+.ctrl-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ctrl-select {
+  padding: 5px 8px;
+  background: var(--surface-inset);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  outline: none;
+  cursor: pointer;
+}
+
+.ctrl-select:focus {
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+/* ==========================================================================
+   BUTTONS
+   ========================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+  border: 1px solid transparent;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.btn--primary {
+  background: var(--accent);
+  color: var(--text-inv);
+  border-color: var(--accent);
+}
+.btn--primary:hover:not(:disabled) {
+  background: var(--accent-strong);
+  border-color: var(--accent-strong);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--text-muted);
+  border-color: var(--border);
+}
+.btn--ghost:hover:not(:disabled) {
+  background: var(--surface-raised);
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+
+.btn--danger {
+  background: transparent;
+  color: var(--danger);
+  border-color: var(--danger-dim);
+}
+.btn--danger:hover:not(:disabled) {
+  background: var(--danger-dim);
+  border-color: var(--danger);
+}
+
+.btn--icon {
+  padding: 6px;
+  background: transparent;
+  border-color: var(--border);
+  color: var(--text-muted);
+}
+.btn--icon:hover:not(:disabled) {
+  background: var(--surface-raised);
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ==========================================================================
+   DATA TABLE
+   ========================================================================== */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+.data-table th {
+  padding: 8px 10px;
+  font-family: var(--font-ui);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border-subtle);
+  vertical-align: middle;
+}
+
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.data-table tbody tr {
+  transition: background-color 0.1s ease;
+}
+
+.data-table tbody tr:hover {
+  background: var(--surface-raised);
+}
+
+/* ==========================================================================
+   TAB NAVIGATION
+   ========================================================================== */
+.tab-nav {
+  display: flex;
+  align-items: flex-end;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tab-nav::-webkit-scrollbar { display: none; }
+
+.tab-btn {
+  padding: 9px 14px;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-dim);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.12s ease, border-color 0.12s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: -1px;
+  outline: none;
+}
+
+.tab-btn:hover {
+  color: var(--text-muted);
+}
+
+.tab-btn--active {
+  color: var(--text);
+  border-bottom-color: var(--accent);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   ALERT / FEEDBACK STRIPS
+   ========================================================================== */
+.alert {
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  border-left: 3px solid;
+  font-size: 0.8125rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.alert--success {
+  background: var(--success-dim);
+  border-color: var(--success);
+  color: #7ecba0;
+}
+
+.alert--error {
+  background: var(--danger-dim);
+  border-color: var(--danger);
+  color: #e08080;
+}
+
+.alert--warn {
+  background: var(--warning-dim);
+  border-color: var(--warning);
+  color: #d4aa72;
+}
+
+.alert--info {
+  background: var(--info-dim);
+  border-color: var(--info);
+  color: #7aa8cc;
+}
+
+/* ==========================================================================
+   ANIMATIONS — subtle and purposeful only
+   ========================================================================== */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+
+.animate-fade-in { animation: fade-in 0.2s ease; }
+.animate-blink   { animation: blink 1.4s ease-in-out infinite; }
+
+/* Live pulse — single dot, no glow ring */
+@keyframes live-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+.animate-live { animation: live-pulse 1.8s ease-in-out infinite; }
+
+/* Spin for loading indicators */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.animate-spin { animation: spin 0.9s linear infinite; }
+
+/* ==========================================================================
+   SECTION HEADER — consistent pattern for panel headings
+   ========================================================================== */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 14px;
+  gap: 8px;
+}
+
+.section-title {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: 0.01em;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+/* ==========================================================================
+   MISSION CONTROL LEGACY CLASS (preserved for tests that reference it)
+   Mapped to new design tokens.
+   ========================================================================== */
+.mission-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  transition: border-color 0.15s ease;
+}
+
+.mission-card:hover {
+  border-color: var(--border-strong);
+}
+
+.font-mono-tech {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
