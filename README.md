@@ -151,6 +151,13 @@ Persistent storage is implemented to enable nodes to reconnect to the network us
     2. Double Sign
 - We have tested our blockchain networks using this malicious nodes to verify that our protocols are working and that our network is functional
 
+## Recent Additions
+We have recently expanded the project with several advanced architectural features:
+- **Signalling Server:** A robust WebSocket-based node discovery layer for seamless P2P connections and room management.
+- **FastAPI Backend Gateway:** A powerful REST & WebSocket API to interact with the blockchain, submit transactions, and stream realtime telemetry.
+- **Mission Control Dashboard:** A modern React/Vite frontend visualizing live network topology, validator states, and consensus operations.
+- **Advanced Testing:** Comprehensive integration test suites (`pytest`) to validate node discovery and peer network behavior.
+
 ## How to run this project
 ### Prerequisites
 - `python 3.10+`
@@ -238,3 +245,11 @@ While this project provides a robust adversarial testbed, it is designed for edu
 
 **Jefin Joji**
 [GitHub](https://github.com/JefinCodes) | [LinkedIn](https://www.linkedin.com/in/jefin-joji-659354313?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app)
+
+**Sreeniketh Vinod**
+
+**Naveen Kannath**
+
+**Sreya Shyjash**
+
+**Vishnu R Das**
